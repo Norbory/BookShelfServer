@@ -24,7 +24,7 @@ class BookDAO {
     // Metodo para actualizar un libro
     async updateBook(id, stock) {
         try {
-            const response = await pool.query('UPDATE pos_book SET stock = $1 WHERE book_id = $2', [stock, id]);
+            const response = await pool.query('UPDATE pos_book SET stock = $2 WHERE book_id = $1', [id, stock]);
             if (response && response.rowCount === 1) {
                 return { message: 'Libro actualizado correctamente' };
             }

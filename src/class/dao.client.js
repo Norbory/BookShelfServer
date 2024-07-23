@@ -21,11 +21,21 @@ class ClientDAO {
         }
     }
 
+    // Método para obtener un cliente por su número de documento
+    async getClientByDocNumber(doc_number) {
+        try {
+            const client = await pool.query('SELECT * FROM pos_client WHERE doc_number = $1', [doc_number]);
+            return client.rows;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     // Método para crear un cliente
     async createClient(client) {
         try {
-            const { client_name, client_email, client_phone } = client;
-            const newClient = await pool.query('INSERT INTO pos_client (client_name, client_email, client_phone) VALUES ($1, $2, $3) RETURNING *', [client_name, client_email, client_phone]);
+            const { doc_type, doc_number, first_name, last_name, phone, email } = client;
+            const newClient = await pool.query('INSERT INTO pos_client (doc_type, doc_number, first_name, last_name, phone, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [doc_type, doc_number, first_name, last_name, phone, email]);
             return newClient.rows;
         } catch (error) {
             throw error;
@@ -33,10 +43,10 @@ class ClientDAO {
     }
 
     // Método para actualizar un cliente
-    async updateClient(client) {
+    async updateClient(client,id) {
         try {
-            const { client_id, client_name, client_email, client_phone } = client;
-            const updatedClient = await pool.query('UPDATE pos_client SET client_name = $1, client_email = $2, client_phone = $3 WHERE client_id = $4 RETURNING *', [client_name, client_email, client_phone, client_id]);
+            const { doc_type, doc_number, first_name, last_name, phone, email } = client;
+            const updatedClient = await pool.query('UPDATE pos_client SET doc_type = $1, doc_number = $2, first_name = $3, last_name = $4, phone = $5, email = $6 WHERE client_id = $7 RETURNING *', [doc_type, doc_number, first_name, last_name, phone, email, id]);
             return updatedClient.rows;
         } catch (error) {
             throw error;

@@ -24,6 +24,16 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+// Obtener un cliente por su número de documento
+router.get("/doc/:doc_number", async (req, res) => {
+    try {
+        const client = await Client.getClientByDocNumber(req.params.doc_number);
+        res.json(client);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Crear un cliente
 router.post("/", async (req, res) => {
     try {
