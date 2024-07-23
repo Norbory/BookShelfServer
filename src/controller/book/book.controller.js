@@ -34,4 +34,24 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+// Crear un libro
+router.post("/", async (req, res) => {
+    try {
+        const newBook = await Book.createBook(req.body);
+        res.json(newBook);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Eliminar un libro
+router.delete("/:id", async (req, res) => {
+    try {
+        const deletedBook = await Book.deleteBook(req.params.id);
+        res.json(deletedBook);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 module.exports = router;

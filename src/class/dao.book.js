@@ -32,6 +32,27 @@ class BookDAO {
             throw error;
         }
     }
+
+    // Método para crear un libro
+    async createBook(book) {
+        try {
+            const { title, author, price, stock } = book;
+            const newBook = await pool.query('INSERT INTO pos_book (title, author, price, stock) VALUES ($1, $2, $3, $4) RETURNING *', [title, author, price, stock]);
+            return newBook.rows;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // Método para eliminar un libro
+    async deleteBook(id) {
+        try {
+            const deletedBook = await pool.query('DELETE FROM pos_book WHERE book_id = $1 RETURNING *', [id]);
+            return deletedBook.rows;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = BookDAO;
