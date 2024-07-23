@@ -7,7 +7,7 @@ const OrderDetails = new OrderDetailsDAO();
 // Obtener todos los detalles de una orden
 router.get("/", async (_, res) => {
     try {
-        const orderDetails = await OrderDetails.getOrderDetailsByOrderId();
+        const orderDetails = await OrderDetails.getOrderDetails();
         res.json(orderDetails);
     } catch (error) {
         res.status(500).json({ error: error.message });

@@ -34,8 +34,8 @@ class OrderDAO {
     // Método para crear una orden
     async createOrder(order) {
         try {
-            const { client_id, total, doc_type, doc_number, created_at } = order;
-            const newOrder = await pool.query('INSERT INTO pos_order (client_id, total, doc_type, doc_number, created_at) VALUES ($1, $2, $3, $4, $5) RETURNING *', [client_id, total, doc_type, doc_number, created_at]);
+            const { client_id, total, doc_type, doc_number } = order;
+            const newOrder = await pool.query('INSERT INTO pos_order (client_id, total, doc_type, doc_number) VALUES ($1, $2, $3, $4) RETURNING *', [client_id, total, doc_type, doc_number]);
             return newOrder.rows;
         } catch (error) {
             throw error;
@@ -45,8 +45,8 @@ class OrderDAO {
     // Método para actualizar una orden
     async updateOrder(order) {
         try {
-            const { order_id, client_id, created_at, order_total } = order;
-            const updatedOrder = await pool.query('UPDATE pos_order SET client_id = $1, created_at = $2, order_total = $3 WHERE order_id = $4 RETURNING *', [client_id, created_at, order_total, order_id]);
+            const { order_id, client_id, order_total } = order;
+            const updatedOrder = await pool.query('UPDATE pos_order SET client_id = $1, order_total = $2 WHERE order_id = $3 RETURNING *', [client_id, order_total, order_id]);
             return updatedOrder.rows;
         } catch (error) {
             throw error;
